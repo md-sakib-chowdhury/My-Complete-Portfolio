@@ -9,7 +9,7 @@ export default function Navbar() {
 
     useEffect(() => { API.get('/about').then(r => setAbout(r.data)); }, []);
 
-    const links = ['about', 'projects', 'skills', 'experience', 'contact'];
+    const links = ['about', 'projects', 'skills', 'experience', 'certificates', 'blogs', 'contact'];
 
     return (
         <nav className="navbar">
