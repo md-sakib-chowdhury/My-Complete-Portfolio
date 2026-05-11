@@ -15,7 +15,7 @@ export default function AdminLogin() {
         try {
             const { data } = await API.post('/auth/login', form);
             localStorage.setItem('adminToken', data.token);
-            navigate('/admin');
+            navigate('/admin/dashboard');
         } catch { setError('Invalid username or password'); }
         setLoading(false);
     };
