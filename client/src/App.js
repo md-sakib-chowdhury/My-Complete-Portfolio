@@ -9,7 +9,8 @@ import ExperiencePage from './pages/ExperiencePage';
 import ContactPage from './pages/ContactPage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
-
+import CertificatesPage from './pages/CertificatesPage';
+import BlogsPage from './pages/BlogsPage';
 export default function App() {
   return (
     <BrowserRouter>
@@ -29,6 +30,8 @@ export default function App() {
               <Route path="/skills" element={<SkillsPage />} />
               <Route path="/experience" element={<ExperiencePage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/certificates" element={<CertificatesPage />} />
+              <Route path="/blogs" element={<BlogsPage />} />
             </Routes>
           </>
         } />
