@@ -13,6 +13,9 @@ app.use('/api/skills', require('./routes/skills'));
 app.use('/api/about', require('./routes/about'));
 app.use('/api/experience', require('./routes/experience'));
 app.use('/api/contact', require('./routes/contact'));
+app.use('/api/upload', require('./routes/upload'));
+app.use('/api/certificates', require('./routes/certificates'));
+app.use('/api/blogs', require('./routes/blogs'));
 
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('✅ MongoDB connected'))
