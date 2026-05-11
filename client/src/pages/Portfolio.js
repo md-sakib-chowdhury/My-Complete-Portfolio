@@ -38,17 +38,7 @@ export default function Portfolio() {
     return (
         <div className="portfolio">
 
-            {/* NAVBAR */}
-            <nav className="navbar">
-                <div className="container nav-inner">
-                    <span className="logo">{about.name || 'Portfolio'}</span>
-                    <ul className="nav-links">
-                        {['about', 'projects', 'skills', 'experience', 'contact'].map(s => (
-                            <li key={s}><a href={`#${s}`}>{s.charAt(0).toUpperCase() + s.slice(1)}</a></li>
-                        ))}
-                    </ul>
-                </div>
-            </nav>
+           
 
             {/* HERO */}
             <section className="hero" id="hero">
