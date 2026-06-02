@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import API from '../api';
 import './AdminDashboard.css';
 
-const TABS = ['About', 'Projects', 'Skills', 'Experience', 'Messages'];
+const TABS = ['About', 'Projects', 'Skills', 'Experience', 'Certificates', 'Blogs', 'Messages'];
 
 export default function AdminDashboard() {
     const navigate = useNavigate();
@@ -13,6 +13,8 @@ export default function AdminDashboard() {
     const [skills, setSkills] = useState([]);
     const [exp, setExp] = useState([]);
     const [messages, setMsgs] = useState([]);
+    const [certificates, setCertificates] = useState([]);
+    const [blogs, setBlogs] = useState([]);
     const [editing, setEditing] = useState(null);
     const [replyId, setReplyId] = useState(null);
     const [replyText, setReplyText] = useState('');
@@ -20,17 +22,22 @@ export default function AdminDashboard() {
     const [projForm, setProjForm] = useState({ title: '', description: '', image: '', liveUrl: '', githubUrl: '', tags: '', featured: false });
     const [skillForm, setSkillForm] = useState({ name: '', icon: '', category: 'Frontend', level: 80 });
     const [expForm, setExpForm] = useState({ company: '', position: '', startDate: '', endDate: '', current: false, description: '' });
+    const [certForm, setCertForm] = useState({ title: '', issuer: '', date: '', image: '', link: '' });
+    const [blogForm, setBlogForm] = useState({ title: '', content: '', thumbnail: '', tags: '', published: true });
 
-    const logout = () => { localStorage.removeItem('adminToken'); navigate('/admin/login'); };
+    const logout = () => { localStorage.removeItem('adminToken'); navigate('/admin'); };
 
     const load = useCallback(async () => {
         try {
-            const [a, p, s, e, m] = await Promise.all([
+            const [a, p, s, e, m, c, bl] = await Promise.all([
                 API.get('/about'), API.get('/projects'), API.get('/skills'),
-                API.get('/experience'), API.get('/contact')
+                API.get('/experience'), API.get('/contact'),
+                API.get('/certificates'), API.get('/blogs')
             ]);
-            setAbout(a.data); setProjects(p.data); setSkills(s.data); setExp(e.data); setMsgs(m.data);
-        } catch { navigate('/admin/login'); }
+            setAbout(a.data); setProjects(p.data); setSkills(s.data);
+            setExp(e.data); setMsgs(m.data);
+            setCertificates(c.data); setBlogs(bl.data);
+        } catch { navigate('/admin'); }
     }, [navigate]);
 
     useEffect(() => { load(); }, [load]);
@@ -59,6 +66,21 @@ export default function AdminDashboard() {
         setEditing(null); load();
     };
 
+    const saveCert = async e => {
+        e.preventDefault();
+        editing ? await API.put(`/certificates/${editing}`, certForm) : await API.post('/certificates', certForm);
+        setCertForm({ title: '', issuer: '', date: '', image: '', link: '' });
+        setEditing(null); load();
+    };
+
+    const saveBlog = async e => {
+        e.preventDefault();
+        const payload = { ...blogForm, tags: blogForm.tags.split(',').map(t => t.trim()).filter(Boolean) };
+        editing ? await API.put(`/blogs/${editing}`, payload) : await API.post('/blogs', payload);
+        setBlogForm({ title: '', content: '', thumbnail: '', tags: '', published: true });
+        setEditing(null); load();
+    };
+
     const sendReply = async id => {
         try {
             await API.post(`/contact/${id}/reply`, { replyText });
@@ -84,6 +106,7 @@ export default function AdminDashboard() {
                     ))}
                 </div>
                 <div className="nav-right">
+                    <a href="/" className="btn btn-outline" style={{ fontSize: '0.85rem', padding: '0.5rem 1rem' }}>🏠 Home</a>
                     <a href="/" target="_blank" className="btn btn-outline" style={{ fontSize: '0.85rem', padding: '0.5rem 1rem' }}>View Site ↗</a>
                     <button className="btn btn-outline" onClick={logout} style={{ fontSize: '0.85rem', padding: '0.5rem 1rem' }}>Logout</button>
                 </div>
@@ -240,6 +263,81 @@ export default function AdminDashboard() {
                     </>
                 )}
 
+                {/* CERTIFICATES */}
+                {tab === 'Certificates' && (
+                    <>
+                        <form className="admin-form card" onSubmit={saveCert}>
+                            <h3>{editing ? '✏️ Edit Certificate' : '➕ Add Certificate'}</h3>
+                            <div className="form-row">
+                                <label>Title<input value={certForm.title} onChange={e => setCertForm({ ...certForm, title: e.target.value })} required /></label>
+                                <label>Issuer<input value={certForm.issuer} onChange={e => setCertForm({ ...certForm, issuer: e.target.value })} required /></label>
+                            </div>
+                            <div className="form-row">
+                                <label>Date<input value={certForm.date} onChange={e => setCertForm({ ...certForm, date: e.target.value })} placeholder="Jan 2024" /></label>
+                                <label>Verify Link<input value={certForm.link} onChange={e => setCertForm({ ...certForm, link: e.target.value })} placeholder="https://..." /></label>
+                            </div>
+                            <label>Image URL<input value={certForm.image} onChange={e => setCertForm({ ...certForm, image: e.target.value })} placeholder="Cloudinary URL..." /></label>
+                            <div className="form-actions">
+                                <button type="submit" className="btn btn-primary">{editing ? 'Update' : 'Add Certificate'}</button>
+                                {editing && <button type="button" className="btn btn-outline" onClick={() => { setEditing(null); setCertForm({ title: '', issuer: '', date: '', image: '', link: '' }); }}>Cancel</button>}
+                            </div>
+                        </form>
+                        <div className="items-list">
+                            {certificates.length === 0 && <p className="muted">No certificates yet.</p>}
+                            {certificates.map(c => (
+                                <div key={c._id} className="list-item card">
+                                    <div className="item-info">
+                                        {c.image && <img src={c.image} alt={c.title} className="item-thumb" />}
+                                        <div><strong>{c.title}</strong><p className="muted">{c.issuer} — {c.date}</p></div>
+                                    </div>
+                                    <div className="item-actions">
+                                        <button className="btn btn-outline" onClick={() => { setCertForm(c); setEditing(c._id); }}>Edit</button>
+                                        <button className="btn-danger" onClick={() => del(`/certificates/${c._id}`)}>Delete</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
+
+                {/* BLOGS */}
+                {tab === 'Blogs' && (
+                    <>
+                        <form className="admin-form card" onSubmit={saveBlog}>
+                            <h3>{editing ? '✏️ Edit Blog' : '➕ Add Blog'}</h3>
+                            <div className="form-row">
+                                <label>Title<input value={blogForm.title} onChange={e => setBlogForm({ ...blogForm, title: e.target.value })} required /></label>
+                                <label>Thumbnail URL<input value={blogForm.thumbnail} onChange={e => setBlogForm({ ...blogForm, thumbnail: e.target.value })} placeholder="Cloudinary URL..." /></label>
+                            </div>
+                            <label>Tags (comma separated)<input value={blogForm.tags} onChange={e => setBlogForm({ ...blogForm, tags: e.target.value })} placeholder="React, JavaScript" /></label>
+                            <label>Content<textarea rows="6" value={blogForm.content} onChange={e => setBlogForm({ ...blogForm, content: e.target.value })} required /></label>
+                            <div className="check-row">
+                                <input type="checkbox" id="pub" checked={blogForm.published} onChange={e => setBlogForm({ ...blogForm, published: e.target.checked })} />
+                                <label htmlFor="pub">Published</label>
+                            </div>
+                            <div className="form-actions">
+                                <button type="submit" className="btn btn-primary">{editing ? 'Update' : 'Add Blog'}</button>
+                                {editing && <button type="button" className="btn btn-outline" onClick={() => { setEditing(null); setBlogForm({ title: '', content: '', thumbnail: '', tags: '', published: true }); }}>Cancel</button>}
+                            </div>
+                        </form>
+                        <div className="items-list">
+                            {blogs.length === 0 && <p className="muted">No blogs yet.</p>}
+                            {blogs.map(b => (
+                                <div key={b._id} className="list-item card">
+                                    <div className="item-info">
+                                        {b.thumbnail && <img src={b.thumbnail} alt={b.title} className="item-thumb" />}
+                                        <div><strong>{b.title}</strong><p className="muted">{b.content?.slice(0, 80)}...</p></div>
+                                    </div>
+                                    <div className="item-actions">
+                                        <button className="btn btn-outline" onClick={() => { setBlogForm({ ...b, tags: b.tags?.join(', ') }); setEditing(b._id); }}>Edit</button>
+                                        <button className="btn-danger" onClick={() => del(`/blogs/${b._id}`)}>Delete</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
+
                 {/* MESSAGES */}
                 {tab === 'Messages' && (
                     <div className="items-list">
@@ -257,7 +355,6 @@ export default function AdminDashboard() {
                                 </div>
                                 {m.subject && <p className="msg-subject">📌 {m.subject}</p>}
                                 <p className="muted" style={{ marginBottom: '1rem' }}>{m.message}</p>
-
                                 {replyId === m._id ? (
                                     <div className="reply-box">
                                         <textarea rows="4" placeholder="Write your reply..." value={replyText} onChange={e => setReplyText(e.target.value)} />
