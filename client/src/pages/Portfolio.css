@@ -306,7 +306,6 @@ select:focus {
     gap: 0;
 }
 
-/* ✅ FIX: text clearly visible on dark background */
 .mobile-menu ul li a {
     display: block;
     padding: 0.85rem 1rem;
@@ -609,6 +608,13 @@ select:focus {
 .project-card {
     padding: 0;
     overflow: hidden;
+    border: 2px solid var(--gold) !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    border-color: #ffffff !important;
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
 }
 
 .project-img {
@@ -905,7 +911,6 @@ select:focus {
 /* Tablet (480px – 767px) */
 @media (max-width: 767px) {
 
-    /* Show hamburger, hide desktop nav */
     .hamburger {
         display: flex;
     }
@@ -918,12 +923,10 @@ select:focus {
         display: none;
     }
 
-    /* Show mobile dropdown */
     .mobile-menu {
         display: block;
     }
 
-    /* Section padding reduce */
     section {
         padding: 70px 0;
     }
@@ -932,7 +935,6 @@ select:focus {
         padding: 0 1.2rem;
     }
 
-    /* Hero */
     .hero-inner {
         grid-template-columns: 1fr;
         text-align: center;
@@ -966,7 +968,6 @@ select:focus {
         bottom: -10px;
     }
 
-    /* Stats */
     .hero-stats {
         flex-direction: column;
     }
@@ -975,7 +976,6 @@ select:focus {
         display: none;
     }
 
-    /* About */
     .about-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -985,17 +985,14 @@ select:focus {
         justify-content: center;
     }
 
-    /* Section titles */
     .section-title {
         font-size: 2rem;
     }
 
-    /* Contact form */
     .form-row {
         grid-template-columns: 1fr;
     }
 
-    /* Footer */
     .footer-inner {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -1006,12 +1003,10 @@ select:focus {
         text-align: center;
     }
 
-    /* Projects grid */
     .projects-grid {
         grid-template-columns: 1fr;
     }
 
-    /* Skills grid */
     .skills-grid {
         grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     }
