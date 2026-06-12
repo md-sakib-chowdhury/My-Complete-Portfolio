@@ -135,7 +135,8 @@ export default function AboutPage() {
                             border:'2px solid rgba(201, 168, 76, 1)',
                             borderRadius: '16px',
                             padding: '2.5rem',
-                            boxShadow: '0 8px 32px rgba(201, 168, 76, 0.08), 0 2px 8px rgba(0,0,0,0.4)',
+                            // boxShadow: '0 8px 32px rgba(201, 168, 76, 0.08), 0 2px 8px rgba(0,0,0,0.4)',
+                            boxShadow: '0 8px 32px rgba(201, 168, 76, 0.4), 0 2px 8px rgba(201, 168, 76, 0.2)',
                             position: 'relative',
                             overflow: 'hidden',
                         }}>
