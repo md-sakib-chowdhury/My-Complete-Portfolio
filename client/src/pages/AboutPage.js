@@ -132,7 +132,7 @@ export default function AboutPage() {
                     <div className="about-grid">
                         <div className="card about-card" style={{
                             background: 'linear-gradient(135deg, #161616 0%, #1a1608 50%, #161616 100%)',
-                            border: '1px solid rgba(201, 168, 76, 0.35)',
+                            border:'2px solid rgba(201, 168, 76, 1)',
                             borderRadius: '16px',
                             padding: '2.5rem',
                             boxShadow: '0 8px 32px rgba(201, 168, 76, 0.08), 0 2px 8px rgba(0,0,0,0.4)',
