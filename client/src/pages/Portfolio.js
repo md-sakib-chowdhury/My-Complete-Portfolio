@@ -595,7 +595,7 @@ export default function Portfolio() {
                     <div className="about-grid">
                         <div className="about-img-wrap">
                             {about.avatar
-                                ? <img src={about.avatar} alt={about.name} className="about-img" />
+                                ? <img src={about.aboutImage || about.avatar} alt={about.name} className="about-img" />
                                 : <div className="about-img-placeholder">👤</div>
                             }
                         </div>
