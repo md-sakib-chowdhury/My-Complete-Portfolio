@@ -135,6 +135,15 @@ export default function AdminDashboard() {
                             <label>GitHub URL<input value={about.github || ''} onChange={e => setAbout({ ...about, github: e.target.value })} /></label>
                             <label>LinkedIn URL<input value={about.linkedin || ''} onChange={e => setAbout({ ...about, linkedin: e.target.value })} /></label>
                         </div>
+                        <div className="form-row">
+                            <label>About Section Image URL
+                                <input
+                                    value={about.aboutImage || ''}
+                                    onChange={e => setAbout({ ...about, aboutImage: e.target.value })}
+                                    placeholder="Portfolio About section photo URL..."
+                                />
+                            </label>
+                        </div>
                         <label>Resume URL<input value={about.resumeUrl || ''} onChange={e => setAbout({ ...about, resumeUrl: e.target.value })} /></label>
                         <button type="submit" className="btn btn-primary">Save Changes ✨</button>
                     </form>
