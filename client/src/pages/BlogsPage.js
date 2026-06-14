@@ -88,6 +88,7 @@ import Footer from '../components/Footer';
 
 export default function BlogsPage() {
     const [blogs, setBlogs] = useState([]);
+    const [selectedBlog, setSelectedBlog] = useState(null);
 
     useEffect(() => { API.get('/blogs').then(r => setBlogs(r.data)); }, []);
 
@@ -110,16 +111,41 @@ export default function BlogsPage() {
                                         {b.tags?.map(t => <span key={t} className="blog-tag">#{t}</span>)}
                                     </div>
                                     <h3 className="blog-title">{b.title}</h3>
-                                    <p className="blog-excerpt">
-                                        {b.content}
-                                    </p>
-                                    <button className="blog-read-more">Read More →</button>
+                                    <p className="blog-excerpt">{b.content}</p>
+                                    <button
+                                        className="blog-read-more"
+                                        onClick={() => setSelectedBlog(b)}
+                                    >
+                                        Read More →
+                                    </button>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
+
+            {/* ─── MODAL ─── */}
+            {selectedBlog && (
+                <div className="blog-modal-overlay" onClick={() => setSelectedBlog(null)}>
+                    <div className="blog-modal" onClick={e => e.stopPropagation()}>
+                        <button className="blog-modal-close" onClick={() => setSelectedBlog(null)}>✕</button>
+                        {selectedBlog.thumbnail && (
+                            <img src={selectedBlog.thumbnail} alt={selectedBlog.title} className="blog-modal-img" />
+                        )}
+                        <div className="blog-modal-body">
+                            <div className="blog-tags" style={{ marginBottom: '1rem' }}>
+                                {selectedBlog.tags?.map(t => (
+                                    <span key={t} className="blog-tag">#{t}</span>
+                                ))}
+                            </div>
+                            <h2 className="blog-modal-title">{selectedBlog.title}</h2>
+                            <p className="blog-modal-content">{selectedBlog.content}</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <Footer />
         </div>
     );
