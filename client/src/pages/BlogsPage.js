@@ -88,7 +88,7 @@ import Footer from '../components/Footer';
 
 export default function BlogsPage() {
     const [blogs, setBlogs] = useState([]);
-    const [selectedBlog, setSelectedBlog] = useState(null);
+    const [expandedId, setExpandedId] = useState(null);
 
     useEffect(() => { API.get('/blogs').then(r => setBlogs(r.data)); }, []);
 
@@ -100,52 +100,35 @@ export default function BlogsPage() {
                     <p className="section-sub">My thoughts and writings</p>
                     {blogs.length === 0 && <p className="muted">No blogs yet.</p>}
                     <div className="blogs-grid">
-                        {blogs.map(b => (
-                            <div key={b._id} className="blog-card">
-                                {b.thumbnail
-                                    ? <img src={b.thumbnail} alt={b.title} className="blog-img" />
-                                    : <div className="blog-img-placeholder">📝</div>
-                                }
-                                <div className="blog-body">
-                                    <div className="blog-tags">
-                                        {b.tags?.map(t => <span key={t} className="blog-tag">#{t}</span>)}
+                        {blogs.map(b => {
+                            const isExpanded = expandedId === b._id;
+                            return (
+                                <div key={b._id} className="blog-card">
+                                    {b.thumbnail
+                                        ? <img src={b.thumbnail} alt={b.title} className="blog-img" />
+                                        : <div className="blog-img-placeholder">📝</div>
+                                    }
+                                    <div className="blog-body">
+                                        <div className="blog-tags">
+                                            {b.tags?.map(t => <span key={t} className="blog-tag">#{t}</span>)}
+                                        </div>
+                                        <h3 className="blog-title">{b.title}</h3>
+                                        <p className={isExpanded ? 'blog-content-full' : 'blog-excerpt'}>
+                                            {b.content}
+                                        </p>
+                                        <button
+                                            className="blog-read-more"
+                                            onClick={() => setExpandedId(isExpanded ? null : b._id)}
+                                        >
+                                            {isExpanded ? 'Show Less ↑' : 'Read More →'}
+                                        </button>
                                     </div>
-                                    <h3 className="blog-title">{b.title}</h3>
-                                    <p className="blog-excerpt">{b.content}</p>
-                                    <button
-                                        className="blog-read-more"
-                                        onClick={() => setSelectedBlog(b)}
-                                    >
-                                        Read More →
-                                    </button>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </section>
-
-            {/* ─── MODAL ─── */}
-            {selectedBlog && (
-                <div className="blog-modal-overlay" onClick={() => setSelectedBlog(null)}>
-                    <div className="blog-modal" onClick={e => e.stopPropagation()}>
-                        <button className="blog-modal-close" onClick={() => setSelectedBlog(null)}>✕</button>
-                        {selectedBlog.thumbnail && (
-                            <img src={selectedBlog.thumbnail} alt={selectedBlog.title} className="blog-modal-img" />
-                        )}
-                        <div className="blog-modal-body">
-                            <div className="blog-tags" style={{ marginBottom: '1rem' }}>
-                                {selectedBlog.tags?.map(t => (
-                                    <span key={t} className="blog-tag">#{t}</span>
-                                ))}
-                            </div>
-                            <h2 className="blog-modal-title">{selectedBlog.title}</h2>
-                            <p className="blog-modal-content">{selectedBlog.content}</p>
-                        </div>
-                    </div>
-                </div>
-            )}
-
             <Footer />
         </div>
     );
