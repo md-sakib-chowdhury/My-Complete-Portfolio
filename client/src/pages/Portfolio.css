@@ -1182,3 +1182,114 @@ select:focus {
         height: 170px;
     }
 }
+
+/* ─── BLOG MODAL ─── */
+.blog-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+}
+
+.blog-modal {
+    background: var(--card);
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    max-width: 720px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalIn 0.3s ease;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.blog-modal-close {
+    position: sticky;
+    top: 1rem;
+    float: right;
+    margin: 1rem 1rem 0 0;
+    background: rgba(201, 168, 76, 0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 1;
+}
+
+.blog-modal-close:hover {
+    background: var(--gold);
+    color: #000;
+}
+
+.blog-modal-img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 16px 16px 0 0;
+}
+
+.blog-modal-body {
+    padding: 1.75rem 2rem 2rem;
+}
+
+.blog-modal-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    line-height: 1.4;
+}
+
+.blog-modal-content {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.9;
+    white-space: pre-wrap;
+}
+
+@media (max-width: 767px) {
+    .blog-modal-body {
+        padding: 1.25rem;
+    }
+
+    .blog-modal-title {
+        font-size: 1.2rem;
+    }
+
+    .blog-modal-img {
+        height: 180px;
+    }
+}
+
+/* ─── BLOG CONTENT EXPAND ─── */
+.blog-content-full {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+    white-space: pre-wrap;
+}
