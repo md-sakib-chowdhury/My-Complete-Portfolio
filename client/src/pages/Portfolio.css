@@ -896,18 +896,28 @@ select:focus {
     box-shadow: 0 12px 40px rgba(201, 168, 76, 0.15);
 }
 
-.blog-img {
-    width: 280px;
-    min-width: 280px;
-    height: 100%;
-    min-height: 220px;
-    object-fit: cover;
+.blog-img-wrap {
+    width: 320px;
+    min-width: 320px;
+    min-height: 240px;
+    position: relative;
+    overflow: hidden;
     border-radius: 14px 0 0 14px;
+    flex-shrink: 0;
+}
+
+.blog-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
 }
 
 .blog-img-placeholder {
-    width: 280px;
-    min-width: 280px;
+    width: 300px;
+    min-width: 300px;
     min-height: 220px;
     background: var(--bg2);
     display: flex;
@@ -916,6 +926,7 @@ select:focus {
     font-size: 3rem;
     border-right: 1px solid var(--border);
     border-radius: 14px 0 0 14px;
+    flex-shrink: 0;
 }
 
 .blog-body {
