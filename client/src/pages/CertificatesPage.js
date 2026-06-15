@@ -104,7 +104,7 @@ export default function CertificatesPage() {
                         {certs.map(c => (
                             <div key={c._id} className="card project-card">
                                 {c.image
-                                    ? <img src={c.image} alt={c.title} className="project-img" />
+                                  ?  < img src={c.image} alt={c.title} className="cert-img" />
                                     : <div className="project-img-placeholder">🏅</div>
                                 }
                                 <div className="project-body">
