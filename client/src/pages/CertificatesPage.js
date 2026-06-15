@@ -90,6 +90,7 @@ import Footer from '../components/Footer';
 
 export default function CertificatesPage() {
     const [certs, setCerts] = useState([]);
+    const [selected, setSelected] = useState(null);
 
     useEffect(() => { API.get('/certificates').then(r => setCerts(r.data)); }, []);
 
@@ -102,9 +103,14 @@ export default function CertificatesPage() {
                     {certs.length === 0 && <p className="muted">No certificates yet.</p>}
                     <div className="projects-grid">
                         {certs.map(c => (
-                            <div key={c._id} className="card project-card">
+                            <div
+                                key={c._id}
+                                className="card project-card"
+                                onClick={() => c.image && setSelected(c)}
+                                style={{ cursor: c.image ? 'pointer' : 'default' }}
+                            >
                                 {c.image
-                                  ?  < img src={c.image} alt={c.title} className="cert-img" />
+                                    ? <img src={c.image} alt={c.title} className="cert-img" />
                                     : <div className="project-img-placeholder">🏅</div>
                                 }
                                 <div className="project-body">
@@ -117,6 +123,21 @@ export default function CertificatesPage() {
                     </div>
                 </div>
             </section>
+
+            {/* ─── CERTIFICATE MODAL ─── */}
+            {selected && (
+                <div className="cert-modal-overlay" onClick={() => setSelected(null)}>
+                    <div className="cert-modal" onClick={e => e.stopPropagation()}>
+                        <button className="cert-modal-close" onClick={() => setSelected(null)}>✕</button>
+                        <img src={selected.image} alt={selected.title} className="cert-modal-img" />
+                        <div className="cert-modal-info">
+                            <h3>{selected.title}</h3>
+                            <p>🏢 {selected.issuer}</p>
+                            <p>📅 {selected.date}</p>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <Footer />
         </div>
