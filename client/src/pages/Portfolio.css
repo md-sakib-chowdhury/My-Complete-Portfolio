@@ -389,6 +389,7 @@ select:focus {
     margin-bottom: 2rem;
     line-height: 1.9;
     font-size: 0.95rem;
+    text-align: justify;
 }
 
 .hero-btns {
@@ -1542,8 +1543,10 @@ select:focus {
         width: 100%;
         min-width: unset;
         height: 200px;
+        min-height: 200px;
         border-radius: 14px 14px 0 0;
         position: relative;
+        overflow: hidden;
     }
 
     .blog-img {
