@@ -882,29 +882,7 @@ export default function Portfolio() {
                 </div>
             </section>
 
-            {/* SKILLS */}
-            <section id="skills" style={{ background: 'var(--bg2)' }}>
-                <div className="container">
-                    <h2 className="section-title">My <span style={{ color: 'var(--gold)' }}>Skills</span></h2>
-                    <p className="section-sub">Technologies I work with</p>
-                    {skills.length === 0 && <p className="muted">No skills yet. Add from admin panel.</p>}
-                    {Object.entries(groups).map(([cat, items]) => (
-                        <div key={cat} className="skill-group">
-                            <h3 className="skill-cat">{cat}</h3>
-                            <div className="skills-grid">
-                                {items.map(s => (
-                                    <div key={s._id} className="card skill-card">
-                                        <span className="skill-icon">{s.icon}</span>
-                                        <span className="skill-name">{s.name}</span>
-                                        <div className="skill-bar-wrap"><div className="skill-bar" style={{ width: `${s.level}%` }} /></div>
-                                        <span className="skill-level">{s.level}%</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
+          
 
             {/* EXPERIENCE */}
             <section id="experience">
