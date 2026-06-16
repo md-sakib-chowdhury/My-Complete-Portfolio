@@ -1454,9 +1454,13 @@ select:focus {
         gap: 2.5rem;
     }
 
-    .hero-bio {
-        margin: 0 auto 2rem;
-    }
+        .hero-bio {
+            color: var(--muted);
+            max-width: 100%;
+            margin-bottom: 2rem;
+            line-height: 1.9;
+            font-size: 0.95rem;
+        }
 
     .hero-btns {
         justify-content: center;
